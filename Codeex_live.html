@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>CODEEX | Restaurant & Traiteur</title>
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+        .floating-cursor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(231, 76, 60, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+        .parallax-bg {
+            background-attachment: fixed;
+        }
+        @media (max-width: 768px) {
+            .parallax-bg {
+                background-attachment: scroll;
+            }
+        }
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="font-['Poppins'] bg-gray-50 text-gray-800">
+    <!-- Curseur flottant🥹 -->
+    <div class="floating-cursor"></div>
+
+    <!-- Daniel WhatsApp Flottant -->
+    <a href="https://wa.me/241077715729?text=Bonjour%20CODEEX%2C%20je%20souhaite%20r%C3%A9server%20ou%20obtenir%20des%20informations%20sur%20vos%20services." 
+       class="whatsapp-float flex items-center justify-center hover:scale-110 transition-transform duration-300"
+       target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full py-4 px-4 md:px-8 lg:px-16 z-50 bg-white/95 backdrop-blur-md shadow-lg transition-all duration-500">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="logo flex items-center text-xl md:text-2xl font-bold">
+                <i class="fas fa-utensils text-red-500 mr-2"></i>
+                <span class="text-blue-800">CODEEX</span>
+            </a>
+            
+            <div class="navbar flex items-center">
+                <ul id="navbar-menu" class="hidden md:flex space-x-2 lg:space-x-4">
+                    <li><a href="#accueil" class="text-blue-800 font-medium px-3 py-2 rounded-lg hover:text-red-500 relative overflow-hidden transition-all duration-300 hover:bg-red-50">Accueil</a></li>
+                    <li><a href="#apropos" class="text-blue-800 font-medium px-3 py-2 rounded-lg hover:text-red-500 relative overflow-hidden transition-all duration-300 hover:bg-red-50">À propos</a></li>
+                    <li><a href="#prestations" class="text-blue-800 font-medium px-3 py-2 rounded-lg hover:text-red-500 relative overflow-hidden transition-all duration-300 hover:bg-red-50">Prestations</a></li>
+                    <li><a href="#galerie" class="text-blue-800 font-medium px-3 py-2 rounded-lg hover:text-red-500 relative overflow-hidden transition-all duration-300 hover:bg-red-50">Galerie</a></li>
+                    <li><a href="#contact" class="text-blue-800 font-medium px-3 py-2 rounded-lg hover:text-red-500 relative overflow-hidden transition-all duration-300 hover:bg-red-50">Contact</a></li>
+                </ul>
+                <a href="https://wa.me/241077715729?text=Bonjour%20CODEEX%2C%20je%20souhaite%20r%C3%A9server%20une%20table%20ou%20un%20service%20traiteur." 
+                   class="btn-reserver bg-red-500 text-white px-4 py-2 md:px-5 md:py-2.5 ml-4 rounded-lg font-semibold uppercase hover:bg-red-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 inline-block"
+                   target="_blank">
+                    Réserver
+                </a>
+                <div class="menu-toggle md:hidden flex flex-col cursor-pointer ml-4" id="menu-toggle">
+                    <span class="w-6 h-0.5 bg-blue-800 my-0.5 transition-all duration-300"></span>
+                    <span class="w-6 h-0.5 bg-blue-800 my-0.5 transition-all duration-300"></span>
+                    <span class="w-6 h-0.5 bg-blue-800 my-0.5 transition-all duration-300"></span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="md:hidden absolute top-full left-0 w-full bg-white shadow-lg py-4 hidden transition-all duration-300">
+            <ul class="flex flex-col space-y-3 px-4">
+                <li><a href="#accueil" class="block text-blue-800 font-medium px-3 py-2 rounded-lg hover:text-red-500 hover:bg-red-50 transition-all duration-300">Accueil</a></li>
+                <li><a href="#apropos" class="block text-blue-800 font-medium px-3 py-2 rounded-lg hover:text-red-500 hover:bg-red-50 transition-all duration-300">À propos</a></li>
+                <li><a href="#prestations" class="block text-blue-800 font-medium px-3 py-2 rounded-lg hover:text-red-500 hover:bg-red-50 transition-all duration-300">Prestations</a></li>
+                <li><a href="#galerie" class="block text-blue-800 font-medium px-3 py-2 rounded-lg hover:text-red-500 hover:bg-red-50 transition-all duration-300">Galerie</a></li>
+                <li><a href="#contact" class="block text-blue-800 font-medium px-3 py-2 rounded-lg hover:text-red-500 hover:bg-red-50 transition-all duration-300">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Section Bannière -->
+    <section class="banniere min-h-screen flex items-center justify-center text-center text-white parallax-bg bg-cover bg-center bg-fixed" id="accueil" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')">
+        <div class="contenu max-w-4xl px-4 md:px-8">
+            <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 text-shadow">CODEEX - Restaurant & Traiteur</h2>
+            <p class="text-lg md:text-xl mb-8 text-shadow">Découvrez une expérience culinaire unique alliant tradition gabonaise et innovation. Service de restauration, traiteur et location d'espaces pour vos événements.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#prestations" class="btn1 bg-red-500 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg font-semibold uppercase hover:bg-red-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 inline-block text-center">Nos Prestations</a>
+                <a href="https://wa.me/241077715729?text=Bonjour%20CODEEX%2C%20je%20souhaite%20r%C3%A9server%20une%20table%20ou%20un%20service%20traiteur." 
+                   class="btn2 bg-green-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg font-semibold uppercase hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 inline-block text-center flex items-center justify-center"
+                   target="_blank">
+                    <i class="fab fa-whatsapp mr-2"></i> Réserver via WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section À propos -->
+    <section class="apropos py-16 md:py-24 bg-white" id="apropos">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="titre-section text-center mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-800 inline-block relative pb-3">
+                    <span class="text-red-500">À</span> propos de nous
+                    <span class="absolute bottom-0 left-1/4 w-1/2 h-1 bg-red-500"></span>
+                </h2>
+            </div>
+            <div class="apropos-content flex flex-col lg:flex-row justify-between items-center gap-8 md:gap-12">
+                <div class="apropos-text flex-1 min-w-0">
+                    <h2 class="text-2xl md:text-3xl font-bold text-blue-800 mb-6">Notre Histoire</h2>
+                    <p class="mb-6 p-4 rounded-lg transition-all duration-300 hover:bg-red-50 hover:translate-x-2 cursor-default">CODEEX est bien plus qu'un simple restaurant. C'est un lieu où la passion pour la cuisine rencontre l'excellence du service. Notre équipe travaille sans relâche pour créer des expériences culinaires mémorables qui éveillent tous vos sens.</p>
+                    <p class="mb-6 p-4 rounded-lg transition-all duration-300 hover:bg-red-50 hover:translate-x-2 cursor-default">Nous nous engageons à utiliser des ingrédients frais, locaux et de saison, en établissant des relations durables avec nos fournisseurs. Notre philosophie est simple : chaque plat doit raconter une histoire et créer une expérience unique pour nos clients.</p>
+                    <p class="mb-6 p-4 rounded-lg transition-all duration-300 hover:bg-red-50 hover:translate-x-2 cursor-default">Que vous veniez pour un dîner romantique, un déjeuner d'affaires, une célébration familiale ou un événement professionnel, nous nous engageons à rendre votre expérience au CODEEX inoubliable.</p>
+                    
+                    <div class="mt-8 p-6 bg-blue-50 rounded-xl border-l-4 border-red-500">
+                        <h3 class="text-xl font-bold text-blue-800 mb-3">Réserver en 1 clic</h3>
+                        <p class="text-blue-700 mb-4">Cliquez sur le bouton ci-dessous pour réserver directement via WhatsApp :</p>
+                        <a href="https://wa.me/241077715729?text=Bonjour%20CODEEX%2C%20je%20souhaite%20r%C3%A9server%20une%20table%20ou%20un%20service%20traiteur." 
+                           class="inline-flex items-center bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
+                           target="_blank">
+                            <i class="fab fa-whatsapp mr-2 text-xl"></i> Réserver maintenant
+                        </a>
+                    </div>
+                </div>
+                <div class="apropos-image flex-1 min-w-0 text-center">
+                    <img src="4.jpg" alt="Notre restaurant" class="max-w-full rounded-xl shadow-lg transition-all duration-500 hover:scale-105">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Prestations -->
+    <section class="prestations py-16 md:py-24 bg-gray-100" id="prestations">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="titre-section text-center mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-800 inline-block relative pb-3">
+                    Nos <span class="text-red-500">Prestations</span>
+                    <span class="absolute bottom-0 left-1/4 w-1/2 h-1 bg-red-500"></span>
+                </h2>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Découvrez l'ensemble de nos services de restauration et traiteur</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- Prestation 1 -->
+                <div class="prestation-item bg-white rounded-xl overflow-hidden shadow-lg hover-lift transition-all duration-300">
+                    <div class="prestation-header bg-red-500 text-white p-4">
+                        <h3 class="text-xl font-bold text-center">EXPRESS SANDWICHERIE</h3>
+                        <p class="text-center text-red-100">Service traiteur</p>
+                    </div>
+                    <div class="prestation-content p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-red-500 mt-1 mr-3"></i>
+                                <span>Kit Goutlet</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-red-500 mt-1 mr-3"></i>
+                                <span>Kit petit déjeuner</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-red-500 mt-1 mr-3"></i>
+                                <span>Eniquette de salade</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-red-500 mt-1 mr-3"></i>
+                                <span>Entice Salée/Sucice/Dessert</span>
+                            </li>
+                        </ul>
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <a href="https://wa.me/241077715729?text=Bonjour%20CODEEX%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20votre%20service%20EXPRESS%20SANDWICHERIE." 
+                               class="w-full bg-red-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-600 transition-all duration-300 flex items-center justify-center"
+                               target="_blank">
+                                <i class="fab fa-whatsapp mr-2"></i> Demander ce service
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Prestation 2 -->
+                <div class="prestation-item bg-white rounded-xl overflow-hidden shadow-lg hover-lift transition-all duration-300">
+                    <div class="prestation-header bg-blue-800 text-white p-4">
+                        <h3 class="text-xl font-bold text-center">EXPRESS RESTAURATION</h3>
+                        <p class="text-center text-blue-100">Service traiteur</p>
+                    </div>
+                    <div class="prestation-content p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-blue-800 mt-1 mr-3"></i>
+                                <span>Braise et Friture</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-blue-800 mt-1 mr-3"></i>
+                                <span>Pause du Télécit</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-blue-800 mt-1 mr-3"></i>
+                                <span>Plats Gabonais</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-blue-800 mt-1 mr-3"></i>
+                                <span>Buffet petit déjeuner</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-blue-800 mt-1 mr-3"></i>
+                                <span>Buffet dîner</span>
+                            </li>
+                        </ul>
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <a href="https://wa.me/241077715729?text=Bonjour%20CODEEX%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20votre%20service%20EXPRESS%20RESTAURATION." 
+                               class="w-full bg-blue-800 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-900 transition-all duration-300 flex items-center justify-center"
+                               target="_blank">
+                                <i class="fab fa-whatsapp mr-2"></i> Demander ce service
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Prestation 3 -->
+                <div class="prestation-item bg-white rounded-xl overflow-hidden shadow-lg hover-lift transition-all duration-300">
+                    <div class="prestation-header bg-green-600 text-white p-4">
+                        <h3 class="text-xl font-bold text-center">LOCATION D'ESPACES</h3>
+                        <p class="text-center text-green-100">Pour vos événements</p>
+                    </div>
+                    <div class="prestation-content p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mt-1 mr-3"></i>
+                                <span>Espace Tétrasse</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mt-1 mr-3"></i>
+                                <span>Salle Principale</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mt-1 mr-3"></i>
+                                <span>Salle VIP</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mt-1 mr-3"></i>
+                                <span>Salle de réunion et Confidence</span>
+                            </li>
+                        </ul>
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <a href="https://wa.me/241077715729?text=Bonjour%20CODEEX%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20la%20location%20d%27espace%20pour%20un%20%C3%A9v%C3%A9nement." 
+                               class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-all duration-300 flex items-center justify-center"
+                               target="_blank">
+                                <i class="fab fa-whatsapp mr-2"></i> Réserver un espace
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="https://wa.me/241077715729?text=Bonjour%20CODEEX%2C%20je%20souhaite%20obtenir%20plus%20d%27informations%20sur%20vos%20prestations." 
+                   class="inline-flex items-center bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
+                   target="_blank">
+                    <i class="fab fa-whatsapp mr-2"></i> Nous contacter pour plus d'informations
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Galerie -->
+    <section class="galerie py-16 md:py-24 bg-white" id="galerie">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="titre-section text-center mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-800 inline-block relative pb-3">
+                    Notre <span class="text-red-500">Galerie</span>
+                    <span class="absolute bottom-0 left-1/4 w-1/2 h-1 bg-red-500"></span>
+                </h2>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Découvrez l'ambiance unique de CODEEX à travers ces moments capturés</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- Image 1 -->
+                <div class="galerie-item bg-white rounded-xl overflow-hidden shadow-lg hover-lift transition-all duration-300">
+                    <div class="galerie-image h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Intérieur du restaurant" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="galerie-content p-6">
+                        <h3 class="text-xl font-bold text-blue-800 mb-2">Notre Espace</h3>
+                        <p class="text-gray-600">Un cadre élégant et chaleureux pour une expérience culinaire inoubliable.</p>
+                    </div>
+                </div>
+                
+                <!-- Image 2 -->
+                <div class="galerie-item bg-white rounded-xl overflow-hidden shadow-lg hover-lift transition-all duration-300">
+                    <div class="galerie-image h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Notre cuisine" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="galerie-content p-6">
+                        <h3 class="text-xl font-bold text-blue-800 mb-2">Notre Cuisine</h3>
+                        <p class="text-gray-600">Un espace moderne où nos chefs créent des plats d'exception avec passion.</p>
+                    </div>
+                </div>
+                
+                <!-- Image 3 -->
+                <div class="galerie-item bg-white rounded-xl overflow-hidden shadow-lg hover-lift transition-all duration-300">
+                    <div class="galerie-image h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80" alt="Spécialités du chef" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="galerie-content p-6">
+                        <h3 class="text-xl font-bold text-blue-800 mb-2">Nos Spécialités</h3>
+                        <p class="text-gray-600">Des plats raffinés préparés avec des ingrédients frais et de saison.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="https://wa.me/241077715729?text=Bonjour%20CODEEX%2C%20je%20souhaite%20visiter%20votre%20%C3%A9tablissement." 
+                   class="inline-flex items-center bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
+                   target="_blank">
+                    <i class="fab fa-whatsapp mr-2"></i> Prendre rendez-vous pour une visite
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-800 text-white pt-12 pb-6" id="contact">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="footer-content flex flex-col md:flex-row justify-between gap-8 md:gap-12 mb-8">
+                <div class="footer-column flex-1 min-w-0">
+                    <h3 class="text-xl font-bold mb-6 pb-2 relative inline-block">CODEEX
+                        <span class="absolute bottom-0 left-0 w-12 h-0.5 bg-red-500"></span>
+                    </h3>
+                    <p class="mb-6 text-blue-200">Restaurant gastronomique et service traiteur offrant une expérience culinaire unique dans une ambiance chaleureuse et élégante.</p>
+                    <div class="social-links flex gap-4">
+                        <a href="#" class="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center hover:bg-red-500 transition-all duration-300 hover:-translate-y-1"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center hover:bg-red-500 transition-all duration-300 hover:-translate-y-1"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/241077715729" class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-700 transition-all duration-300 hover:-translate-y-1"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column flex-1 min-w-0">
+                    <h3 class="text-xl font-bold mb-6 pb-2 relative inline-block">Horaires
+                        <span class="absolute bottom-0 left-0 w-12 h-0.5 bg-red-500"></span>
+                    </h3>
+                    <p class="mb-3 text-blue-200">Lundi - Vendredi: 11h30 - 14h30, 18h30 - 22h30</p>
+                    <p class="mb-3 text-blue-200">Samedi: 12h00 - 15h00, 19h00 - 23h00</p>
+                    <p class="mb-3 text-blue-200">Dimanche: 12h00 - 15h00</p>
+                </div>
+                <div class="footer-column flex-1 min-w-0">
+                    <h3 class="text-xl font-bold mb-6 pb-2 relative inline-block">Contact & Réservation
+                        <span class="absolute bottom-0 left-0 w-12 h-0.5 bg-red-500"></span>
+                    </h3>
+                    <p class="mb-3 text-blue-200"><i class="fas fa-map-marker-alt mr-2"></i> Lalala, Gabon</p>
+                    <p class="mb-3 text-blue-200">
+                        <i class="fab fa-whatsapp mr-2 text-green-400"></i> 
+                        <a href="https://wa.me/241077715729" class="hover:text-green-300 transition-colors duration-300 font-semibold">+241 077 71 57 29</a>
+                    </p>
+                    <p class="mb-3 text-blue-200"><i class="fas fa-phone mr-2"></i> <a href="tel:074101591" class="hover:text-red-300 transition-colors duration-300">074 10 15 91</a></p>
+                    <p class="mb-3 text-blue-200"><i class="fas fa-phone mr-2"></i> <a href="tel:066788415" class="hover:text-red-300 transition-colors duration-300">066 78 84 15</a></p>
+                    <p class="mb-3 text-blue-200"><i class="fas fa-envelope mr-2"></i> <a href="mailto:contact@codeex.com" class="hover:text-red-300 transition-colors duration-300">contact@codeex.com</a></p>
+                    
+                    <div class="mt-6 p-4 bg-blue-700 rounded-lg">
+                        <p class="text-blue-100 text-sm mb-2">Réservez directement via WhatsApp :</p>
+                        <a href="https://wa.me/241077715729?text=Bonjour%20CODEEX%2C%20je%20souhaite%20r%C3%A9server%20une%20table%20ou%20un%20service%20traiteur." 
+                           class="inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-green-700 transition-all duration-300 w-full justify-center"
+                           target="_blank">
+                            <i class="fab fa-whatsapp mr-2"></i> Réserver maintenant
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright text-center pt-6 border-t border-blue-700 text-blue-300 text-sm">
+                <p>&copy; 2025 CODEEX. Tous droits réservés. by Danie_Tech</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Curseur flottant personnalisé
+        const cursor = document.querySelector('.floating-cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Menu mobile toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Fermer le menu mobile en cliquant sur un lien
+        const navLinks = document.querySelectorAll('.navbar a, #mobile-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuToggle.classList.remove('active');
+            });
+        });
+
+        // Animation du header au scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.classList.add('py-3', 'shadow-xl');
+                header.classList.remove('py-4');
+            } else {
+                header.classList.remove('py-3', 'shadow-xl');
+                header.classList.add('py-4');
+            }
+        });
+
+        // Effet de survol pour les éléments de prestations
+        const prestationItems = document.querySelectorAll('.prestation-item');
+        prestationItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateY(-5px)';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
